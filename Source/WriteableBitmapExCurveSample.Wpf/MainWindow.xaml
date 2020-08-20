@@ -32,7 +32,10 @@
         </StackPanel>
 
         <Border Margin="20,80" Background="#55FFFFFF" VerticalAlignment="Top" HorizontalAlignment="Left">
-            <TextBlock Name="FpsCounter" FontFamily="Verdana" FontSize="22" ></TextBlock>
+            <StackPanel>
+                <TextBlock Name="FpsCounter" FontFamily="Verdana" FontSize="22" ></TextBlock>
+                <TextBlock Name="DrawCounter" FontFamily="Verdana" FontSize="22" ></TextBlock>
+            </StackPanel>
         </Border>        
     </Grid>
 </Window>

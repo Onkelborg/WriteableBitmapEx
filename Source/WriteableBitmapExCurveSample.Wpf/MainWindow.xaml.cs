@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -59,6 +60,7 @@ namespace WriteableBitmapExCurveSample.Wpf
         private Random rand;
         private bool isInDelete;
         private Plant plant;
+        private int drawCounter;
 
         #endregion
 
@@ -107,8 +109,8 @@ namespace WriteableBitmapExCurveSample.Wpf
             {
                 if (ChkDemoPlant.IsChecked.Value)
                 {
-                    plant.Grow();
-                    plant.Draw(this.writeableBmp);
+                    //plant.Grow();
+                    //plant.Draw(this.writeableBmp);
                 }
                 else if (ChkDemoPerf.IsChecked.Value)
                 {
@@ -116,6 +118,40 @@ namespace WriteableBitmapExCurveSample.Wpf
                     Draw();
                 }
             };
+
+            this.BeginRunPlant();
+        }
+
+        private async void BeginRunPlant()
+        {
+            var stopwatch = new Stopwatch();
+            stopwatch.Restart();
+            var targetTime = TimeSpan.FromSeconds(
+                1.0d / 10.0d);
+            while (true)
+            {
+                var actualTime = stopwatch.Elapsed;
+                stopwatch.Restart();
+                var timeLeft = targetTime - actualTime;
+                if (timeLeft < TimeSpan.Zero)
+                {
+                    timeLeft = TimeSpan.Zero;
+                }
+                await Task.Delay(
+                    timeLeft);
+                using (var outerContext = this.writeableBmp.GetBitmapContext())
+                {
+                    await Task.Run(
+                        () =>
+                        {
+                            plant.Grow();
+                            plant.Draw(this.writeableBmp);
+                        });
+                }
+
+                drawCounter++;
+                this.DrawCounter.Text = this.drawCounter.ToString();
+            }
         }
 
         private void AddRandomPoints()
