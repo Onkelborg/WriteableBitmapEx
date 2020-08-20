@@ -375,14 +375,14 @@ namespace WriteableBitmapExCurveSample.Wpf
             if (this.TxtTension != null)
             {
                 this.TxtTension.Text = String.Format("Tension: {0:f2}", Tension);
-                Draw();
+                //Draw();
             }
 
             // Update plant
             if (plant != null && ChkDemoPlant.IsChecked.Value)
             {
                 plant.Tension = Tension;
-                plant.Draw(this.writeableBmp);
+                //plant.Draw(this.writeableBmp);
             }
         }
 
